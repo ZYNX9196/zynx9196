@@ -1710,17 +1710,49 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
 
   return (
     <main
-      className="relative min-h-[calc(100svh-105px)] overflow-hidden bg-cover bg-center px-3 pb-32 pt-3 sm:min-h-[calc(100vh-73px)] sm:px-4 md:px-6 md:py-6 md:pb-32"
+      className="relative min-h-[calc(100svh-105px)] overflow-x-hidden bg-cover bg-center px-3 pb-32 pt-3 sm:min-h-[calc(100vh-73px)] sm:px-4 md:px-6 md:py-6 md:pb-32"
       style={{ backgroundImage: "url('/Untitled%20design%20(9).png')" }}
     >
-      <div className="absolute inset-0 bg-[#f5f5f3]/68 backdrop-blur-[1px]" aria-hidden="true" />
-      <section className="relative mx-auto grid max-w-5xl gap-3 sm:gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
-        <div className="overflow-hidden border border-[#d8d3ca]/80 bg-[#f5f5f3]/88 shadow-[0_12px_38px_rgba(46,46,43,0.18)] backdrop-blur-md">
-          <div className="flex items-center justify-between border-b border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-3 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8a857a] sm:tracking-[0.14em]">
+      <div className="absolute inset-0 bg-[#f5f5f3]/28" aria-hidden="true" />
+      <section className="relative mx-auto grid w-full max-w-5xl gap-3 sm:gap-4">
+        <div className="border border-[#e3e1dc]/70 bg-[#f5f5f3]/95 p-3 text-xs shadow-[0_16px_48px_rgba(46,46,43,0.18),0_0_0_1px_rgba(250,249,246,0.55)_inset] backdrop-blur sm:p-4">
+          <div className="mb-3 text-[11px] uppercase tracking-[0.12em] text-[#8a857a]">signal links</div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            <a
+              href="https://www.instagram.com/zynx_9196/"
+              target="_blank"
+              rel="noreferrer"
+              className="border border-[#e3e1dc] bg-white px-3 py-2 text-[#2e2e2b] transition hover:bg-[#f0eee9]"
+            >
+              <span className="block text-[10px] uppercase tracking-[0.12em] text-[#9a9489]">instagram</span>
+              <span className="mt-1 block truncate">@zynx_9196</span>
+            </a>
+            <a
+              href="https://zynx9196.substack.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="border border-[#e3e1dc] bg-white px-3 py-2 text-[#2e2e2b] transition hover:bg-[#f0eee9]"
+            >
+              <span className="block text-[10px] uppercase tracking-[0.12em] text-[#9a9489]">substack</span>
+              <span className="mt-1 block truncate">zynx9196.substack.com</span>
+            </a>
+            <a
+              href="mailto:signal@zynx9196.art"
+              className="border border-[#e3e1dc] bg-white px-3 py-2 text-[#2e2e2b] transition hover:bg-[#f0eee9]"
+            >
+              <span className="block text-[10px] uppercase tracking-[0.12em] text-[#9a9489]">email</span>
+              <span className="mt-1 block truncate">signal@zynx9196.art</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="grid w-full gap-3 sm:gap-4 xl:grid-cols-[minmax(0,1fr)_220px]">
+        <div className="min-w-0 overflow-hidden border border-[#e3e1dc]/70 bg-[#f5f5f3]/95 shadow-[0_16px_48px_rgba(46,46,43,0.22),0_0_0_1px_rgba(250,249,246,0.55)_inset] backdrop-blur">
+          <div className="flex items-center justify-between border-b border-[#e3e1dc] bg-[#f6f5f2] px-3 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8a857a] sm:tracking-[0.14em]">
             <span>terminal</span>
             <span>{String(lines.length).padStart(3, "0")}</span>
           </div>
-          <div ref={terminalRef} className="max-h-[46svh] min-h-[260px] overflow-y-auto px-3 py-3 text-[13px] leading-6 sm:max-h-[56vh] sm:min-h-[420px] sm:px-4 sm:py-4 sm:leading-7 md:max-h-[62vh] md:min-h-[360px] md:text-xs md:leading-6">
+          <div ref={terminalRef} className="h-[clamp(240px,46svh,420px)] overflow-y-auto px-3 py-3 text-[13px] leading-6 sm:h-[clamp(260px,calc(100vh-330px),420px)] sm:px-4 sm:py-4 sm:leading-7 md:h-[clamp(260px,calc(100vh-300px),460px)] md:text-xs md:leading-6">
             {lines.map((line, index) => (
               <div
                 key={`${line}-${index}`}
@@ -1733,7 +1765,7 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
             ))}
           </div>
 
-          <label className="flex min-h-12 gap-2 border-t border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-3 py-3 text-[16px] sm:px-4 sm:text-[13px] md:min-h-0 md:text-xs">
+          <label className="flex min-h-12 gap-2 border-t border-[#e3e1dc] bg-[#f6f5f2] px-3 py-3 text-[16px] sm:px-4 sm:text-[13px] md:min-h-0 md:text-xs">
             <span aria-hidden="true" className="text-[#8a857a]">&gt;</span>
             <input
               value={input}
@@ -1752,22 +1784,23 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
           </label>
         </div>
 
-        <aside className="border border-[#d8d3ca]/80 bg-[#f5f5f3]/88 p-3 text-xs shadow-[0_12px_38px_rgba(46,46,43,0.14)] backdrop-blur-md sm:p-4">
+        <aside className="min-w-0 border border-[#e3e1dc]/70 bg-[#f5f5f3]/95 p-3 text-xs shadow-[0_16px_48px_rgba(46,46,43,0.18),0_0_0_1px_rgba(250,249,246,0.55)_inset] backdrop-blur sm:p-4">
           <div className="text-[11px] uppercase tracking-[0.12em] text-[#8a857a]">commands</div>
-          <div className="mt-3 grid grid-cols-3 gap-2 leading-5 text-[#5a554d] sm:flex sm:overflow-x-auto sm:pb-1 lg:flex-wrap lg:overflow-visible">
+          <div className="mt-3 grid grid-cols-3 gap-2 leading-5 text-[#5a554d] sm:grid-cols-4 lg:grid-cols-6 xl:flex xl:flex-wrap">
             {visibleCommands.map(({ command, label }) => (
               <button
                 key={command}
                 type="button"
                 onClick={() => onCommand(command)}
                 title={label}
-                className="min-h-10 min-w-0 border border-[#e3e1dc]/80 bg-[#f5f5f3]/75 px-2 py-2 text-center text-[12px] leading-4 hover:bg-[#f0eee9]/90 hover:text-[#2e2e2b] sm:shrink-0 sm:px-3 sm:text-left sm:text-xs sm:leading-5 lg:min-h-0 lg:px-2 lg:py-1"
+                className="min-h-10 min-w-0 border border-[#e3e1dc] bg-white px-2 py-2 text-center text-[12px] leading-4 hover:bg-[#f0eee9] hover:text-[#2e2e2b] sm:px-3 sm:text-xs sm:leading-5 xl:min-h-0 xl:px-2 xl:py-1 xl:text-left"
               >
                 {command}
               </button>
             ))}
           </div>
         </aside>
+        </div>
       </section>
     </main>
   );
