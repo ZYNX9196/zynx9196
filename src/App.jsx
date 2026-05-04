@@ -24,6 +24,7 @@ const TERMINAL_COMMANDS = [
   { command: "latest", label: "newest works" },
   { command: "collections", label: "collection counts" },
   { command: "playlist", label: "current listening stack" },
+  { command: "socials", label: "contact links" },
   { command: "prjcts", label: "project shelf" },
   { command: "signal", label: "site signal" },
   { command: "method", label: "working notes" },
@@ -748,6 +749,14 @@ export default function App() {
       response = playlists.length
         ? ["playlists", "", ...playlists.map((playlist, index) => `${index + 1}. ${playlist.title || "untitled playlist"}`)]
         : ["no playlists loaded"];
+    } else if (command === "socials") {
+      response = [
+        "socials",
+        "",
+        "instagram | @zynx_9196",
+        "substack | https://zynx9196.substack.com/",
+        "email | signal@zynx9196.art",
+      ];
     } else if (command === "prjcts") {
       response = poems.length
         ? ["PRJCTS", "", ...poems.map((project, index) => `${index + 1}. ${project.title || "untitled project"}`)]
@@ -884,18 +893,20 @@ export default function App() {
         />
       )}
       {!isAdmin && playerTracks.length ? (
-        <PlayerWidget
-          tracks={playerTracks}
-          playlistOptions={playablePlaylistOptions}
-          activePlaylistId={activePlaylistId}
-          setActivePlaylistId={setActivePlaylistId}
-          activePlaylistTitle={activePlaylistTitle}
-          activePlaylistIndex={activePlaylistIndex}
-          activeTrackIndex={activeTrackIndex}
-          setActiveTrackIndex={setActiveTrackIndex}
-          activeMediaUrl={activeMediaUrl}
-          activeTrack={activeTrack}
-        />
+        <div className="hidden md:block">
+          <PlayerWidget
+            tracks={playerTracks}
+            playlistOptions={playablePlaylistOptions}
+            activePlaylistId={activePlaylistId}
+            setActivePlaylistId={setActivePlaylistId}
+            activePlaylistTitle={activePlaylistTitle}
+            activePlaylistIndex={activePlaylistIndex}
+            activeTrackIndex={activeTrackIndex}
+            setActiveTrackIndex={setActiveTrackIndex}
+            activeMediaUrl={activeMediaUrl}
+            activeTrack={activeTrack}
+          />
+        </div>
       ) : null}
       <style>{`
         .masonry-work-image {
@@ -983,7 +994,6 @@ function Gallery({ works, poems, onSelectWork }) {
         <EmptyState label="no works yet" hint="new work will appear here soon" />
       )}
 
-      <ProjectsSection projects={poems} activeProject={activePoem} setActiveProjectId={setActivePoemId} />
       <SubstackSection />
     </main>
   );
