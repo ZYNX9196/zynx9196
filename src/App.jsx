@@ -807,7 +807,7 @@ export default function App() {
     }`;
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#f5f5f3] font-mono text-[#2e2e2b]">
+    <div className="min-h-screen overflow-x-clip bg-[#f5f5f3] font-mono text-[#2e2e2b]">
       <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-[#e3e1dc]/70 bg-[#f5f5f3]/95 px-4 py-4 backdrop-blur sm:flex-nowrap md:px-7 md:py-4">
         <button
           type="button"
