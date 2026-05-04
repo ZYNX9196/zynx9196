@@ -9,6 +9,10 @@ const STORAGE_KEYS = {
   payloadVersion: "zynx_payload_version_v1",
 };
 
+const ADMIN_SESSION_KEY = "zynx_admin_unlocked_v1";
+const ADMIN_UNLOCK_COMMAND = "studio";
+const ADMIN_PASSPHRASE = "zynx-9196";
+
 const IMPORT_PAYLOAD = importPayload || {};
 const DEFAULT_IMPORT_PAYLOAD_ID = IMPORT_PAYLOAD.payloadId || IMPORT_PAYLOAD.exportedAt || String(IMPORT_PAYLOAD.version || 0);
 
@@ -111,134 +115,7 @@ const DEFAULT_POEMS = Array.isArray(IMPORT_PAYLOAD.poems) && IMPORT_PAYLOAD.poem
       },
     ];
 
-const PUBLIC_WORK_IMAGES = [
-  "10.png",
-  "12.png",
-  "20260120_113635.jpg",
-  "20260126_203512.jpg",
-  "20260202_185001.jpg",
-  "20260204_0927360.jpg",
-  "20260205_170805.jpg",
-  "20260219_120236.jpg",
-  "20260228_144853.jpg",
-  "20260306_133635.jpg",
-  "20260306_133656(0).jpg",
-  "20260306_133702.jpg",
-  "20260306_133910.jpg",
-  "20260306_134214.jpg",
-  "20260306_135034.jpg",
-  "20260306_170604(0).jpg",
-  "20260412_121222.jpg",
-  "20260412_122538(0).jpg",
-  "20260412_122545.jpg",
-  "20260412_122547.jpg",
-  "20260412_122549.jpg",
-  "20260412_123531.jpg",
-  "20260412_123625.jpg",
-  "22.png",
-  "23.png",
-  "24.png",
-  "and2.png",
-  "and4.png",
-  "and8.png",
-  "b3764a53665ce2ac16891d6cea317ef6.jpg",
-  "Benevolent Spikes.png",
-  "Caged Hopes.png",
-  "Complementary Luminosity.png",
-  "Crystallised Drop.png",
-  "Do you even feel alive - v.9.png",
-  "Drop 1.png",
-  "Drop 2.png",
-  "drop.png",
-  "DSCN3501.png",
-  "DSCN3526.png",
-  "Feel alive yet.png",
-  "fish tin 1.png",
-  "fish tin 2.png",
-  "fish tin 3.png",
-  "fish tin 4.png",
-  "Fish tin.png",
-  "gen z work life 1.png",
-  "gen z work life.png",
-  "Grid 2.png",
-  "Grid 3.png",
-  "Grid.png",
-  "image.png",
-  "IMG_20230206_081445_754.webp",
-  "IMG_20230227_110014_510.webp",
-  "IMG_20230609_163915_908.webp",
-  "IMG_20230615_101703_124.webp",
-  "Inevitably Everywhere - v.2.png",
-  "Invented Reality - v.5.png",
-  "Justiça e Futuro - v.5.png",
-  "last song played v1.png",
-  "last song played.png",
-  "Letters and Symbols.png",
-  "Looking Ahead.png",
-  "Picsart_24-12-24_17-41-02-298.jpg",
-  "Sacred Surveillance.png",
-  "Scan_20260426 (10).png",
-  "Scan_20260426 (14).png",
-  "Scan_20260426 (15).png",
-  "Scan_20260426 (16).png",
-  "Scan_20260426 (23).png",
-  "Scan_20260426 (24).png",
-  "Scan_20260426 (25).png",
-  "Scan_20260426 (26).png",
-  "Scan_20260426 (27).png",
-  "Scan_20260426 (28).png",
-  "Scan_20260426 (29).png",
-  "Scan_20260426 (30).png",
-  "Scan_20260426 (31).png",
-  "Scan_20260426 (32).png",
-  "Scan_20260426 (33).png",
-  "Scan_20260426 (34).png",
-  "Scan_20260426 (41).png",
-  "Scan_20260426 (49).png",
-  "Scan_20260426 (51).png",
-  "Scan_20260426 (52).png",
-  "Scan_20260426 (53).png",
-  "Scan_20260426 (54).png",
-  "Scan_20260426 (62).png",
-  "Scan_20260426 (63).png",
-  "Scan_20260426 (64).png",
-  "Scan_20260426 (65).png",
-  "Scan_20260426 (66).png",
-  "Scan_20260426 (67).png",
-  "Scan_20260426 (68).png",
-  "Scan_20260426 (69).png",
-  "Scan_20260426 (7).png",
-  "Scan_20260426 (70).png",
-  "Scan_20260426 (71).png",
-  "Scan_20260426 (72).png",
-  "Scan_20260426 (73).png",
-  "Scan_20260426 (74).png",
-  "Scan_20260426 (75).png",
-  "Scan_20260426 (76).png",
-  "Scan_20260426 (77).png",
-  "Scan_20260426 (78).png",
-  "Scan_20260426 (79).png",
-  "Scan_20260426 (80).png",
-  "Scan_20260426 (81).png",
-  "Scan_20260426 (82).png",
-  "Scan_20260426 (83).png",
-  "Scan_20260426 (84).png",
-  "Scan_20260426 (85).png",
-  "Scan_20260426 (86).png",
-  "Scan_20260426 (9).png",
-  "Scan_20260426.png",
-  "Self - v.4.png",
-  "Self.png",
-  "Solitare Civilization - v.9.png",
-  "the industry.png",
-  "Tight Schedule.png",
-  "ụ\u0027lëi l.png",
-  "Untitled design.gif",
-  "Vigilant Oracle.png",
-  "webcam-toy-photo34.jpg",
-  "what about now.png",
-  "Whose dream are you dying for.png",
-];
+const PUBLIC_WORK_IMAGES = getPublicWorkImages(DEFAULT_WORKS);
 
 function makeId() {
   return crypto.randomUUID?.() || String(Date.now() + Math.random());
@@ -286,6 +163,23 @@ function safeSave(key, value) {
 function safeImageUrl(src) {
   if (!src) return "";
   return typeof src === "string" ? encodeURI(src) : src;
+}
+
+function getPublicImageName(src) {
+  const value = String(src || "").trim();
+  if (!value || /^(data:|https?:|blob:)/i.test(value)) return "";
+  const cleanValue = value.replace(/^\/+/, "").split(/[?#]/)[0];
+  if (!/\.(png|jpe?g|webp|gif)$/i.test(cleanValue)) return "";
+  return cleanValue.split("/").pop();
+}
+
+function getPublicWorkImages(works = []) {
+  const fileNames = works.flatMap((work) => [
+    getPublicImageName(work.image),
+    ...(Array.isArray(work.images) ? work.images.map(getPublicImageName) : []),
+  ]);
+
+  return [...new Set(fileNames.filter(Boolean))].sort((a, b) => a.localeCompare(b));
 }
 
 function normalizeWork(work = {}, index = 0) {
@@ -379,9 +273,10 @@ function textToLines(text) {
 function getGalleryColumnCount(width = window.innerWidth) {
   if (width >= 1536) return 6;
   if (width >= 1280) return 5;
-  if (width >= 1024) return 4;
-  if (width >= 640) return 3;
-  return 2;
+  if (width >= 1180) return 4;
+  if (width >= 900) return 3;
+  if (width >= 640) return 2;
+  return 1;
 }
 
 function useGalleryColumnCount() {
@@ -641,7 +536,13 @@ function readFileAsDataUrl(file) {
 }
 
 export default function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(() => {
+    try {
+      return sessionStorage.getItem(ADMIN_SESSION_KEY) === "true";
+    } catch {
+      return false;
+    }
+  });
   const [mode, setMode] = useState("gallery");
   const [selectedWorkId, setSelectedWorkId] = useState(null);
 
@@ -700,18 +601,37 @@ export default function App() {
     safeSave(STORAGE_KEYS.terminal, terminalConfig);
   }, [terminalConfig]);
 
-  useEffect(() => {
-    const handler = (event) => {
-      if (event.ctrlKey && event.key.toLowerCase() === "a") {
-        event.preventDefault();
-        setIsAdmin((value) => !value);
-        setSelectedWorkId(null);
-      }
-    };
+  const unlockAdmin = () => {
+    const passphrase = window.prompt("studio passphrase");
+    if (passphrase !== ADMIN_PASSPHRASE) {
+      setTerminalLines((prev) => [...prev, "access denied"]);
+      return false;
+    }
 
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, []);
+    try {
+      sessionStorage.setItem(ADMIN_SESSION_KEY, "true");
+    } catch {
+      // Session storage is a convenience only; keep the current tab unlocked.
+    }
+
+    setIsAdmin(true);
+    setMode("gallery");
+    setSelectedWorkId(null);
+    setTerminalInput("");
+    return true;
+  };
+
+  const lockAdmin = () => {
+    try {
+      sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    } catch {
+      // Ignore storage failures and still lock this tab.
+    }
+
+    setIsAdmin(false);
+    setMode("gallery");
+    setSelectedWorkId(null);
+  };
 
   const allPlayerTracks = useMemo(() => getPlayablePlaylistTracks(playlists), [playlists]);
   const playablePlaylistOptions = useMemo(
@@ -766,7 +686,13 @@ export default function App() {
 
     let response = [];
 
-    if (command === "help") {
+    if (command === ADMIN_UNLOCK_COMMAND) {
+      unlockAdmin();
+      return;
+    } else if (command === "lock") {
+      lockAdmin();
+      response = ["studio locked"];
+    } else if (command === "help") {
       const customCommands = terminalConfig.commands
         .map((item) => item.trigger.trim())
         .filter(Boolean)
@@ -864,29 +790,36 @@ export default function App() {
     }, 200);
   };
 
+  const navButtonClass = (targetMode) =>
+    `relative px-1 py-1 text-center transition after:absolute after:inset-x-2 after:-bottom-0.5 after:h-px sm:min-h-0 sm:px-0 sm:py-0 sm:after:hidden ${
+      mode === targetMode && !selectedWorkId
+        ? "text-[#2e2e2b] after:bg-[#2e2e2b]"
+        : "text-[#7a746a] after:bg-transparent hover:text-[#2e2e2b]"
+    }`;
+
   return (
-    <div className="min-h-screen bg-[#f5f5f3] font-mono text-[#2e2e2b]">
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#e3e1dc]/70 bg-[#f5f5f3]/90 px-4 py-4 backdrop-blur md:px-7">
+    <div className="min-h-screen overflow-x-hidden bg-[#f5f5f3] font-mono text-[#2e2e2b]">
+      <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-[#e3e1dc]/70 bg-[#f5f5f3]/95 px-4 py-4 backdrop-blur sm:flex-nowrap md:px-7 md:py-4">
         <button
           type="button"
           onClick={() => {
             setMode("gallery");
             setSelectedWorkId(null);
           }}
-          className="flex items-center gap-2 text-left"
+          className="flex min-w-0 items-center gap-3 text-left sm:gap-2"
         >
-          <img src="/logo.png" alt="ZYNX_9196 logo" className="h-7 w-7 object-contain" />
-          <span className="text-[13px] tracking-widest">ZYNX_9196</span>
+          <img src="/logo.png" alt="ZYNX_9196 logo" className="h-10 w-10 shrink-0 object-contain sm:h-7 sm:w-7" />
+          <span className="truncate text-[16px] tracking-widest sm:text-[12px] md:text-[13px]">ZYNX_9196</span>
         </button>
 
-        <nav className="flex items-center gap-2 text-[11px] text-[#7a746a] md:gap-3 md:text-xs">
+        <nav className="order-2 flex w-full items-center justify-between border-t border-[#e3e1dc]/70 pt-2 whitespace-nowrap text-[13px] uppercase tracking-[0.08em] sm:order-none sm:w-auto sm:justify-end sm:gap-3 sm:border-t-0 sm:pt-0 sm:text-left sm:text-[11px] sm:normal-case sm:tracking-normal md:gap-3 md:text-xs">
           <button
             type="button"
             onClick={() => {
               setMode("gallery");
               setSelectedWorkId(null);
             }}
-            className="hover:text-[#2e2e2b]"
+            className={navButtonClass("gallery")}
           >
             gallery
           </button>
@@ -896,7 +829,7 @@ export default function App() {
               setMode("archive");
               setSelectedWorkId(null);
             }}
-            className="hover:text-[#2e2e2b]"
+            className={navButtonClass("archive")}
           >
             archive
           </button>
@@ -906,7 +839,7 @@ export default function App() {
               setMode("terminal");
               setSelectedWorkId(null);
             }}
-            className="hover:text-[#2e2e2b]"
+            className={navButtonClass("terminal")}
           >
             terminal
           </button>
@@ -926,6 +859,7 @@ export default function App() {
           resetTerminal={() => setTerminalLines(terminalConfig.introLines)}
           publicAdditionalImage={publicAdditionalImage}
           setPublicAdditionalImage={setPublicAdditionalImage}
+          onLock={lockAdmin}
         />
       ) : selectedWorkId ? (
         <WorkDetails
@@ -1009,17 +943,33 @@ function Gallery({ works, poems, onSelectWork }) {
     : visibleWorks.filter((work) => ((work.collection || "main").trim() || "main") === activeCollection);
 
   return (
-    <main className="space-y-5 px-3 pb-24 pt-4 md:space-y-6 md:p-6">
-      <div className="flex flex-wrap gap-2 text-[11px] text-[#7a746a] md:text-xs">
+    <main className="space-y-5 px-4 pb-28 pt-4 md:space-y-6 md:p-6 md:pb-32">
+      <label className="-mx-4 flex items-center justify-between border-b border-[#e3e1dc]/70 px-4 pb-3 text-[11px] uppercase tracking-[0.12em] text-[#8a857a] md:hidden">
+        <span>collection</span>
+        <select
+          value={activeCollection}
+          onChange={(event) => setActiveCollection(event.target.value)}
+          className="max-w-[58vw] border-0 bg-transparent text-right text-[11px] uppercase tracking-[0.12em] text-[#2e2e2b] outline-none"
+          aria-label="choose collection"
+        >
+          {collectionNames.map((collectionName) => (
+            <option key={collectionName} value={collectionName}>
+              {collectionName === "all" ? "all" : collectionName}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <div className="hidden gap-1 overflow-x-auto pb-1 text-[11px] text-[#7a746a] md:flex md:flex-wrap md:overflow-visible md:text-xs">
         {collectionNames.map((collectionName) => (
           <button
             key={collectionName}
             type="button"
             onClick={() => setActiveCollection(collectionName)}
-            className={`rounded-none border px-2.5 py-1 transition ${
+            className={`min-h-8 shrink-0 rounded-none px-3 py-1.5 transition md:min-h-0 md:border md:px-2.5 md:py-1 ${
               activeCollection === collectionName
-                ? "border-[#2e2e2b] bg-[#2e2e2b] text-[#f5f5f3]"
-                : "border-[#e3e1dc] bg-[#faf9f6] text-[#7c776d] hover:bg-[#f0eee9]"
+                ? "bg-[#2e2e2b] text-[#f5f5f3] md:border-[#2e2e2b]"
+                : "text-[#7c776d] hover:bg-[#f0eee9] md:border-[#e3e1dc] md:bg-[#faf9f6]"
             }`}
           >
             {collectionName === "all" ? "all" : collectionName}
@@ -1030,7 +980,7 @@ function Gallery({ works, poems, onSelectWork }) {
       {filteredWorks.length ? (
         <MasonryWorkGrid works={filteredWorks} onSelectWork={onSelectWork} />
       ) : (
-        <EmptyState label="no works yet" hint="open admin and add your first piece" />
+        <EmptyState label="no works yet" hint="new work will appear here soon" />
       )}
 
       <ProjectsSection projects={poems} activeProject={activePoem} setActiveProjectId={setActivePoemId} />
@@ -1045,7 +995,7 @@ function Archive({ works }) {
   );
 
   return (
-    <main className="space-y-5 px-3 pb-24 pt-4 md:space-y-6 md:p-6">
+    <main className="space-y-5 px-4 pb-28 pt-4 md:space-y-6 md:p-6 md:pb-32">
       {archivedWorks.length ? (
         <MasonryWorkGrid
           works={archivedWorks}
@@ -1064,7 +1014,7 @@ function Archive({ works }) {
           )}
         />
       ) : (
-        <EmptyState label="no archived works" hint="mark works as archive in admin" />
+        <EmptyState label="no archived works" hint="archive resources will appear here soon" />
       )}
     </main>
   );
@@ -1140,12 +1090,12 @@ function ProjectsSection({ projects, activeProject, setActiveProjectId }) {
               <div className="mt-1 text-xs text-[#9a9489]">{activeProject?.note || ""}</div>
             </div>
             <div className="whitespace-pre-wrap text-sm leading-7 text-[#4a4742]">
-              {activeProject?.body || "add project text or image notes in admin"}
+              {activeProject?.body || "project notes coming soon"}
             </div>
           </div>
         </div>
       ) : (
-        <EmptyState label="PRJCTS coming later" hint="add projects in admin when ready" />
+        <EmptyState label="PRJCTS coming later" hint="project notes will appear here soon" />
       )}
     </section>
   );
@@ -1168,6 +1118,7 @@ function PlayerWidget({
   const [isYoutubeReady, setIsYoutubeReady] = useState(false);
   const [youtubeTrackMeta, setYoutubeTrackMeta] = useState({ title: "", artist: "", source: "" });
   const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
+  const [isMobilePlayerOpen, setIsMobilePlayerOpen] = useState(false);
   const audioRef = useRef(null);
   const youtubeHostRef = useRef(null);
   const youtubePlayerRef = useRef(null);
@@ -1443,13 +1394,13 @@ function PlayerWidget({
   }, [currentTitle]);
 
   return (
-    <section className="fixed bottom-3 right-3 z-20 w-[280px] rounded-none border border-[#e3e1dc]/70 bg-[#f5f5f3]/90 p-3 text-sm shadow-[0_16px_48px_rgba(46,46,43,0.22),0_0_0_1px_rgba(250,249,246,0.55)_inset] backdrop-blur md:bottom-4 md:right-4">
-      <div className="mb-2 flex items-center justify-between gap-2 text-[10px] uppercase tracking-[0.16em] text-[#8a857a]">
+    <section className="fixed inset-x-0 bottom-0 z-20 border-t border-[#d8d3ca] bg-[#f5f5f3]/95 p-2.5 text-sm shadow-[0_-10px_28px_rgba(46,46,43,0.14)] backdrop-blur sm:inset-x-3 sm:bottom-3 sm:border sm:border-[#e3e1dc]/70 sm:p-3 sm:shadow-[0_16px_48px_rgba(46,46,43,0.22),0_0_0_1px_rgba(250,249,246,0.55)_inset] md:left-auto md:right-4 md:w-[300px]">
+      <div className="mb-1.5 flex items-center justify-between gap-2 text-[10px] uppercase tracking-[0.16em] text-[#8a857a] sm:mb-2">
         {playlistOptions.length > 1 ? (
           <select
             value={activePlaylistId}
             onChange={(event) => setActivePlaylistId(event.target.value)}
-            className="min-w-0 flex-1 truncate border-0 bg-transparent p-0 text-[10px] uppercase tracking-[0.16em] text-[#8a857a] outline-none"
+            className="min-h-7 min-w-0 flex-1 truncate border-0 bg-transparent p-0 text-[10px] uppercase tracking-[0.16em] text-[#8a857a] outline-none sm:min-h-8"
             aria-label="choose playlist"
             title="choose playlist"
           >
@@ -1462,20 +1413,55 @@ function PlayerWidget({
         ) : (
           <div className="truncate">{activePlaylistTitle || "playlist"}</div>
         )}
-        {playlistCounter ? <div className="shrink-0">{playlistCounter}</div> : null}
-      </div>
-      <div
-        ref={titleViewportRef}
-        className={`player-title mb-3 border border-[#e3e1dc] bg-white px-2 py-1.5 ${isTitleOverflowing ? "player-title-overflowing" : ""}`}
-        title={currentTitle}
-      >
-        <div
-          className="player-title-text"
-          style={{ "--player-title-duration": titleScrollDuration }}
-        >
-          <span ref={titleTextRef}>{currentTitle}</span>
-          {isTitleOverflowing ? <span aria-hidden="true">{currentTitle}</span> : null}
+        <div className="flex shrink-0 items-center gap-2">
+          {playlistCounter ? <div>{playlistCounter}</div> : null}
+          <button
+            type="button"
+            onClick={() => setIsMobilePlayerOpen((value) => !value)}
+            className="px-1 text-sm leading-none text-[#7a746a] hover:text-[#2e2e2b] sm:hidden"
+            aria-label={isMobilePlayerOpen ? "collapse player controls" : "expand player controls"}
+            title={isMobilePlayerOpen ? "collapse player controls" : "expand player controls"}
+          >
+            {isMobilePlayerOpen ? "x" : "+"}
+          </button>
         </div>
+      </div>
+
+      <div className="grid grid-cols-[minmax(0,1fr)_48px] items-center gap-2 sm:block">
+        <div
+          ref={titleViewportRef}
+          className={`player-title border border-[#e3e1dc] bg-white px-3 py-2 ${isTitleOverflowing ? "player-title-overflowing" : ""} sm:mb-3 sm:py-2.5`}
+          title={currentTitle}
+        >
+          <div
+            className="player-title-text"
+            style={{ "--player-title-duration": titleScrollDuration }}
+          >
+            <span ref={titleTextRef}>{currentTitle}</span>
+            {isTitleOverflowing ? <span aria-hidden="true">{currentTitle}</span> : null}
+          </div>
+        </div>
+        {canPlay ? (
+          <button
+            type="button"
+            onClick={handlePlayPause}
+            className="flex h-10 w-full items-center justify-center rounded-none border border-[#e3e1dc] bg-white text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9] sm:hidden"
+            aria-label={isPlaying ? "pause track" : "play track"}
+            title={isPlaying ? "pause track" : "play track"}
+          >
+            {isPlaying ? (
+              <span aria-hidden="true" className="flex items-center gap-1">
+                <span className="block h-3 w-1 bg-[#2a2926]" />
+                <span className="block h-3 w-1 bg-[#2a2926]" />
+              </span>
+            ) : (
+              <span
+                aria-hidden="true"
+                className="block h-0 w-0 border-y-[7px] border-l-[11px] border-y-transparent border-l-[#2a2926]"
+              />
+            )}
+          </button>
+        ) : null}
       </div>
 
       <audio ref={audioRef} src={isAudio ? activeMediaUrl : ""} className="hidden" preload="none" />
@@ -1484,12 +1470,12 @@ function PlayerWidget({
       </div>
 
       {canPlay ? (
-        <div className="flex items-center gap-2">
+        <div className={`${isMobilePlayerOpen ? "grid" : "hidden"} mt-2 grid-cols-[44px_minmax(0,1fr)_44px_44px] items-center gap-2 sm:grid sm:grid-cols-[36px_minmax(0,1fr)_36px_36px]`}>
           <button
             type="button"
             onClick={handlePrev}
             disabled={!canUsePlayerNavigation}
-            className="flex h-9 w-9 items-center justify-center rounded-none border border-[#e3e1dc] bg-white text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9] disabled:opacity-40"
+            className="flex h-11 w-full items-center justify-center rounded-none border border-[#e3e1dc] bg-white text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9] disabled:opacity-40 md:h-9"
             aria-label="previous track"
             title="previous track"
           >
@@ -1498,7 +1484,7 @@ function PlayerWidget({
           <button
             type="button"
             onClick={handlePlayPause}
-            className="flex h-9 flex-1 items-center justify-center rounded-none border border-[#e3e1dc] bg-white px-3 text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9]"
+            className="flex h-11 flex-1 items-center justify-center rounded-none border border-[#e3e1dc] bg-white px-3 text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9] md:h-9"
             aria-label={isPlaying ? "pause track" : "play track"}
             title={isPlaying ? "pause track" : "play track"}
           >
@@ -1517,7 +1503,7 @@ function PlayerWidget({
           <button
             type="button"
             onClick={handleStop}
-            className="flex h-9 w-9 items-center justify-center rounded-none border border-[#e3e1dc] bg-white text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9]"
+            className="flex h-11 w-full items-center justify-center rounded-none border border-[#e3e1dc] bg-white text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9] md:h-9"
             aria-label="stop track"
             title="stop track"
           >
@@ -1527,7 +1513,7 @@ function PlayerWidget({
             type="button"
             onClick={handleNext}
             disabled={!canUsePlayerNavigation}
-            className="flex h-9 w-9 items-center justify-center rounded-none border border-[#e3e1dc] bg-white text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9] disabled:opacity-40"
+            className="flex h-11 w-full items-center justify-center rounded-none border border-[#e3e1dc] bg-white text-base leading-none text-[#2a2926] transition hover:bg-[#f0eee9] disabled:opacity-40 md:h-9"
             aria-label="next track"
             title="next track"
           >
@@ -1536,7 +1522,7 @@ function PlayerWidget({
         </div>
       ) : (
         <div className="rounded-none border border-[#e3e1dc] bg-white px-3 py-3 text-center text-[11px] text-[#7a746a]">
-          add a YouTube or audio URL in playlist admin
+          no playlist source is available yet
         </div>
       )}
       {playerStatus ? (
@@ -1613,11 +1599,11 @@ function WorkDetails({ work, onBack }) {
   };
 
   return (
-    <main className="mx-auto max-w-[1420px] px-3 pb-24 pt-4 text-[#2e2e2b] md:px-6 md:py-5">
+    <main className="mx-auto max-w-[1420px] px-3 pb-32 pt-4 text-[#2e2e2b] sm:px-4 md:px-6 md:py-5 md:pb-32">
       <button
         type="button"
         onClick={onBack}
-        className="mb-3 rounded-none border border-[#e3e1dc] bg-[#f6f5f2] px-3 py-1.5 text-xs transition hover:bg-[#f0eee9] md:mb-4"
+        className="mb-3 min-h-10 rounded-none border border-[#e3e1dc] bg-[#f6f5f2] px-4 py-2 text-xs transition hover:bg-[#f0eee9] md:mb-4 md:min-h-0 md:px-3 md:py-1.5"
       >
         back
       </button>
@@ -1627,7 +1613,7 @@ function WorkDetails({ work, onBack }) {
           <button
             type="button"
             onClick={showNextImage}
-            className={`flex w-full min-h-[280px] items-center justify-center overflow-hidden rounded-none border border-[#e3e1dc] bg-[#f7f6f3] p-2 md:min-h-[calc(100vh-140px)] ${
+            className={`flex min-h-[360px] w-full items-center justify-center overflow-hidden rounded-none border border-[#e3e1dc] bg-[#f7f6f3] p-0 sm:min-h-[440px] md:min-h-[calc(100vh-140px)] md:p-2 ${
               hasVersions ? "cursor-pointer hover:bg-[#f0eee9]" : "cursor-default"
             }`}
             aria-label={hasVersions ? "show next version" : "artwork image"}
@@ -1635,7 +1621,7 @@ function WorkDetails({ work, onBack }) {
             <img
               src={safeImageUrl(activeImage.src)}
               alt={activeImage.alt || work.alt || work.title || "artwork"}
-              className="h-auto max-h-[calc(100vh-156px)] w-auto max-w-full object-contain"
+              className="h-full max-h-[72vh] w-full object-contain md:h-auto md:max-h-[calc(100vh-156px)] md:w-auto"
             />
           </button>
 
@@ -1650,7 +1636,7 @@ function WorkDetails({ work, onBack }) {
                     key={image.id || image.src}
                     type="button"
                     onClick={() => setActiveImageIndex(index)}
-                    className={`h-14 w-14 shrink-0 border bg-[#f6f5f2] p-1 ${
+                    className={`h-16 w-16 shrink-0 border bg-[#f6f5f2] p-1 md:h-14 md:w-14 ${
                       index === activeImageIndex ? "border-[#2e2e2b]" : "border-[#e3e1dc] hover:border-[#2e2e2b]"
                     }`}
                     aria-label={`show version ${index + 1}`}
@@ -1680,7 +1666,7 @@ function WorkDetails({ work, onBack }) {
           <div>
             <div className="text-[11px] uppercase tracking-[0.08em] text-[#9a9489]">notes</div>
             <div className="mt-2 whitespace-pre-wrap text-xs leading-6 text-[#4a4742]">
-              {work.detailsText || work.note || "Add details about this piece in admin."}
+              {work.detailsText || work.note || "Details coming soon."}
             </div>
           </div>
         </aside>
@@ -1715,17 +1701,14 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
   }, [lines]);
 
   return (
-    <main
-      className="min-h-[calc(100vh-73px)] bg-cover bg-center bg-no-repeat px-3 pb-28 pt-4 md:px-6 md:py-6"
-      style={{ backgroundImage: `url("${safeImageUrl("/Untitled design (9).png")}")` }}
-    >
-      <section className="mx-auto grid max-w-5xl gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
+    <main className="min-h-[calc(100vh-73px)] px-3 pb-32 pt-4 sm:px-4 md:px-6 md:py-6 md:pb-32">
+      <section className="mx-auto grid max-w-5xl gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
         <div className="overflow-hidden border border-[#e3e1dc]/70 bg-[#f5f5f3]/90 shadow-[0_12px_38px_rgba(46,46,43,0.14)] backdrop-blur">
           <div className="flex items-center justify-between border-b border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-3 py-2 text-[10px] uppercase tracking-[0.14em] text-[#8a857a]">
             <span>terminal</span>
             <span>{String(lines.length).padStart(3, "0")}</span>
           </div>
-          <div ref={terminalRef} className="max-h-[62vh] min-h-[360px] overflow-y-auto px-4 py-4 text-xs leading-6">
+          <div ref={terminalRef} className="max-h-[56vh] min-h-[420px] overflow-y-auto px-4 py-4 text-[13px] leading-7 md:max-h-[62vh] md:min-h-[360px] md:text-xs md:leading-6">
             {lines.map((line, index) => (
               <div
                 key={`${line}-${index}`}
@@ -1736,7 +1719,7 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
             ))}
           </div>
 
-          <label className="flex gap-2 border-t border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-4 py-3 text-xs">
+          <label className="flex min-h-12 gap-2 border-t border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-4 py-3 text-[13px] md:min-h-0 md:text-xs">
             <span aria-hidden="true" className="text-[#8a857a]">&gt;</span>
             <input
               value={input}
@@ -1757,14 +1740,14 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
 
         <aside className="border border-[#e3e1dc]/70 bg-[#f5f5f3]/90 p-4 text-xs shadow-[0_12px_38px_rgba(46,46,43,0.1)] backdrop-blur">
           <div className="text-[11px] uppercase tracking-[0.12em] text-[#8a857a]">commands</div>
-          <div className="mt-3 flex flex-wrap gap-2 leading-5 text-[#5a554d]">
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 leading-5 text-[#5a554d] lg:flex-wrap lg:overflow-visible">
             {visibleCommands.map(({ command, label }) => (
               <button
                 key={command}
                 type="button"
                 onClick={() => onCommand(command)}
                 title={label}
-                className="border border-[#e3e1dc]/80 bg-[#f5f5f3]/75 px-2 py-1 text-left hover:bg-[#f0eee9]/90 hover:text-[#2e2e2b]"
+                className="min-h-10 shrink-0 border border-[#e3e1dc]/80 bg-[#f5f5f3]/75 px-3 py-2 text-left hover:bg-[#f0eee9]/90 hover:text-[#2e2e2b] lg:min-h-0 lg:px-2 lg:py-1"
               >
                 {command}
               </button>
@@ -1786,11 +1769,11 @@ function MasonryWorkGrid({ works, onSelectWork, renderFooter, draggable = false,
 
   return (
     <div
-      className="grid gap-2 md:gap-3"
+      className="grid gap-4 sm:gap-3"
       style={{ gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))` }}
     >
       {columns.map((columnWorks, columnIndex) => (
-        <div key={`column-${columnIndex}`} className="space-y-2 md:space-y-3">
+        <div key={`column-${columnIndex}`} className="space-y-4 sm:space-y-3">
           {columnWorks.map(({ work, index }) => (
             <button
               key={work.id}
@@ -1804,21 +1787,21 @@ function MasonryWorkGrid({ works, onSelectWork, renderFooter, draggable = false,
                 if (onSelectWork) onSelectWork(work.id);
               }}
               disabled={!onSelectWork && !draggable}
-              className={`block w-full overflow-hidden rounded-none border bg-[#f7f6f3] text-left shadow-[0_1px_0_rgba(46,46,43,0.03)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#f0eee9] hover:border-[#2e2e2b] focus:outline-none focus:ring-2 focus:ring-[#d8d3ca] md:rounded-none ${
+              className={`block w-full overflow-hidden rounded-none border bg-[#f7f6f3] text-left shadow-[0_1px_0_rgba(46,46,43,0.03)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#f0eee9] hover:border-[#2e2e2b] focus:outline-none focus:ring-2 focus:ring-[#d8d3ca] active:bg-[#ebe9e4] md:rounded-none ${
                 draggingId === work.id ? "border-[#2e2e2b] opacity-50" : "border-[#e3e1dc]"
               }`}
               title={draggable ? `drag to reorder: ${work.title}` : work.title}
             >
               <img
                 src={safeImageUrl(work.image || "https://picsum.photos/500/650")}
-                className="masonry-work-image h-auto w-full object-contain transition duration-300"
+                className="masonry-work-image aspect-[4/5] h-auto w-full bg-[#f7f6f3] object-contain transition duration-300 lg:aspect-auto"
                 alt={draggable ? "" : work.alt || work.title || "artwork"}
               />
               {renderFooter ? (
                 renderFooter(work, index)
               ) : (
-                <div className="bg-[#f6f5f2]/95 px-2.5 py-2 text-[11px]">
-                  <div className="truncate">{work.title}</div>
+                <div className="bg-[#f6f5f2]/95 px-4 py-3 text-[12px] leading-5 sm:px-3 sm:py-2.5 sm:text-[11px]">
+                  <div className="break-words">{work.title}</div>
                   {work.year ? <div className="mt-0.5 text-[#8a857a]">{work.year}</div> : null}
                 </div>
               )}
@@ -1842,6 +1825,7 @@ function Admin({
   resetTerminal,
   publicAdditionalImage,
   setPublicAdditionalImage,
+  onLock,
 }) {
   const [activePanel, setActivePanel] = useState("works");
   const [selectedWorkId, setSelectedWorkId] = useState(works[0]?.id || null);
@@ -2243,6 +2227,7 @@ function Admin({
             <button type="button" onClick={addPoem} className="admin-btn">+ project</button>
             <button type="button" onClick={addTerminalCommand} className="admin-btn">+ terminal command</button>
             <button type="button" onClick={exportData} className="admin-btn-dark">export</button>
+            <button type="button" onClick={onLock} className="admin-btn-dark">lock</button>
             <label className="admin-btn cursor-pointer">
               import
               <input
@@ -3177,5 +3162,3 @@ function EmptyState({ label, hint }) {
     </div>
   );
 }
-
-
