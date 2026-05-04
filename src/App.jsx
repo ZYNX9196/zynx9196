@@ -1056,7 +1056,7 @@ function SubstackSection() {
   );
 }
 
-function ProjectsSection({ projects, activeProject, setActiveProjectId }) {
+function ProjectsSection({ projects }) {
   return (
     <section className="overflow-hidden rounded-none border border-[#e3e1dc] bg-[#f6f5f2] md:rounded-none">
       <div className="border-b border-[#e3e1dc] px-4 py-3 text-[11px] uppercase tracking-[0.12em] text-[#8a857a]">
@@ -1064,34 +1064,23 @@ function ProjectsSection({ projects, activeProject, setActiveProjectId }) {
       </div>
 
       {projects.length ? (
-        <div className="grid md:grid-cols-[240px_minmax(0,1fr)]">
-          <div className="border-b border-[#e3e1dc] bg-[#f2f1ee] md:border-b-0 md:border-r">
+        <div className="grid md:grid-cols-[minmax(0,1fr)_220px]">
+          <div className="bg-[#f2f1ee]">
             {projects.map((project) => {
-              const isActive = project.id === activeProject?.id;
               return (
-                <button
+                <div
                   key={project.id}
-                  type="button"
-                  onClick={() => setActiveProjectId(project.id)}
-                  className={`block w-full border-b border-[#e3e1dc] px-4 py-3 text-left text-xs transition last:border-b-0 ${
-                    isActive ? "bg-[#ebe9e4] text-[#2a2926]" : "hover:bg-[#f0eee9]"
-                  }`}
+                  className="border-b border-[#e3e1dc] px-4 py-3 text-xs last:border-b-0"
                 >
                   <div>{project.title || "untitled project"}</div>
                   <div className="mt-1 text-[11px] text-[#9a9489]">{project.note || "project"}</div>
-                </button>
+                </div>
               );
             })}
           </div>
 
-          <div className="bg-[#faf9f6] p-4 md:p-5">
-            <div className="mb-4">
-              <div className="text-sm text-[#2a2926]">{activeProject?.title || "project"}</div>
-              <div className="mt-1 text-xs text-[#9a9489]">{activeProject?.note || ""}</div>
-            </div>
-            <div className="whitespace-pre-wrap text-sm leading-7 text-[#4a4742]">
-              {activeProject?.body || "project notes coming soon"}
-            </div>
+          <div className="border-t border-[#e3e1dc] bg-[#faf9f6] p-4 text-xs leading-6 text-[#7a746a] md:border-l md:border-t-0">
+            view paused for now
           </div>
         </div>
       ) : (
@@ -1618,11 +1607,14 @@ function WorkDetails({ work, onBack }) {
             }`}
             aria-label={hasVersions ? "show next version" : "artwork image"}
           >
-            <img
-              src={safeImageUrl(activeImage.src)}
-              alt={activeImage.alt || work.alt || work.title || "artwork"}
-              className="h-full max-h-[72vh] w-full object-contain md:h-auto md:max-h-[calc(100vh-156px)] md:w-auto"
-            />
+          <img
+            src={safeImageUrl(activeImage.src)}
+            alt={activeImage.alt || work.alt || work.title || "artwork"}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="h-full max-h-[72vh] w-full object-contain md:h-auto md:max-h-[calc(100vh-156px)] md:w-auto"
+          />
           </button>
 
           {hasVersions ? (
@@ -1641,7 +1633,13 @@ function WorkDetails({ work, onBack }) {
                     }`}
                     aria-label={`show version ${index + 1}`}
                   >
-                    <img src={safeImageUrl(image.src)} alt="" className="h-full w-full object-cover" />
+                    <img
+                      src={safeImageUrl(image.src)}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -1701,25 +1699,27 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
   }, [lines]);
 
   return (
-    <main className="min-h-[calc(100vh-73px)] px-3 pb-32 pt-4 sm:px-4 md:px-6 md:py-6 md:pb-32">
-      <section className="mx-auto grid max-w-5xl gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
+    <main className="min-h-[calc(100svh-105px)] px-3 pb-32 pt-3 sm:min-h-[calc(100vh-73px)] sm:px-4 md:px-6 md:py-6 md:pb-32">
+      <section className="mx-auto grid max-w-5xl gap-3 sm:gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
         <div className="overflow-hidden border border-[#e3e1dc]/70 bg-[#f5f5f3]/90 shadow-[0_12px_38px_rgba(46,46,43,0.14)] backdrop-blur">
-          <div className="flex items-center justify-between border-b border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-3 py-2 text-[10px] uppercase tracking-[0.14em] text-[#8a857a]">
+          <div className="flex items-center justify-between border-b border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-3 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8a857a] sm:tracking-[0.14em]">
             <span>terminal</span>
             <span>{String(lines.length).padStart(3, "0")}</span>
           </div>
-          <div ref={terminalRef} className="max-h-[56vh] min-h-[420px] overflow-y-auto px-4 py-4 text-[13px] leading-7 md:max-h-[62vh] md:min-h-[360px] md:text-xs md:leading-6">
+          <div ref={terminalRef} className="max-h-[46svh] min-h-[260px] overflow-y-auto px-3 py-3 text-[13px] leading-6 sm:max-h-[56vh] sm:min-h-[420px] sm:px-4 sm:py-4 sm:leading-7 md:max-h-[62vh] md:min-h-[360px] md:text-xs md:leading-6">
             {lines.map((line, index) => (
               <div
                 key={`${line}-${index}`}
-                className={line.startsWith(">") ? "text-[#2e2e2b]" : line === "..." ? "text-[#9a9489]" : "text-[#5a554d]"}
+                className={`whitespace-pre-wrap break-words ${
+                  line.startsWith(">") ? "text-[#2e2e2b]" : line === "..." ? "text-[#9a9489]" : "text-[#5a554d]"
+                }`}
               >
                 {line || "\u00a0"}
               </div>
             ))}
           </div>
 
-          <label className="flex min-h-12 gap-2 border-t border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-4 py-3 text-[13px] md:min-h-0 md:text-xs">
+          <label className="flex min-h-12 gap-2 border-t border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-3 py-3 text-[16px] sm:px-4 sm:text-[13px] md:min-h-0 md:text-xs">
             <span aria-hidden="true" className="text-[#8a857a]">&gt;</span>
             <input
               value={input}
@@ -1738,16 +1738,16 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
           </label>
         </div>
 
-        <aside className="border border-[#e3e1dc]/70 bg-[#f5f5f3]/90 p-4 text-xs shadow-[0_12px_38px_rgba(46,46,43,0.1)] backdrop-blur">
+        <aside className="border border-[#e3e1dc]/70 bg-[#f5f5f3]/90 p-3 text-xs shadow-[0_12px_38px_rgba(46,46,43,0.1)] backdrop-blur sm:p-4">
           <div className="text-[11px] uppercase tracking-[0.12em] text-[#8a857a]">commands</div>
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 leading-5 text-[#5a554d] lg:flex-wrap lg:overflow-visible">
+          <div className="mt-3 grid grid-cols-3 gap-2 leading-5 text-[#5a554d] sm:flex sm:overflow-x-auto sm:pb-1 lg:flex-wrap lg:overflow-visible">
             {visibleCommands.map(({ command, label }) => (
               <button
                 key={command}
                 type="button"
                 onClick={() => onCommand(command)}
                 title={label}
-                className="min-h-10 shrink-0 border border-[#e3e1dc]/80 bg-[#f5f5f3]/75 px-3 py-2 text-left hover:bg-[#f0eee9]/90 hover:text-[#2e2e2b] lg:min-h-0 lg:px-2 lg:py-1"
+                className="min-h-10 min-w-0 border border-[#e3e1dc]/80 bg-[#f5f5f3]/75 px-2 py-2 text-center text-[12px] leading-4 hover:bg-[#f0eee9]/90 hover:text-[#2e2e2b] sm:shrink-0 sm:px-3 sm:text-left sm:text-xs sm:leading-5 lg:min-h-0 lg:px-2 lg:py-1"
               >
                 {command}
               </button>
@@ -1792,11 +1792,16 @@ function MasonryWorkGrid({ works, onSelectWork, renderFooter, draggable = false,
               }`}
               title={draggable ? `drag to reorder: ${work.title}` : work.title}
             >
-              <img
-                src={safeImageUrl(work.image || "https://picsum.photos/500/650")}
-                className="masonry-work-image aspect-[4/5] h-auto w-full bg-[#f7f6f3] object-contain transition duration-300 lg:aspect-auto"
-                alt={draggable ? "" : work.alt || work.title || "artwork"}
-              />
+              <div className="flex aspect-[4/5] w-full items-center justify-center bg-[#f7f6f3] sm:block sm:aspect-auto">
+                <img
+                  src={safeImageUrl(work.image || "https://picsum.photos/500/650")}
+                  loading={index < 4 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchPriority={index < 2 ? "high" : "auto"}
+                  className="masonry-work-image h-full w-full object-contain transition duration-300 sm:h-auto"
+                  alt={draggable ? "" : work.alt || work.title || "artwork"}
+                />
+              </div>
               {renderFooter ? (
                 renderFooter(work, index)
               ) : (
@@ -2422,7 +2427,13 @@ function ImageFolderPicker({ label, actionLabel, selectedSrc = "", onSelect }) {
               }`}
               title={`${actionLabel}: ${fileName}`}
             >
-              <img src={safeImageUrl(imageSrc)} alt="" className="aspect-square w-full bg-white object-cover" />
+              <img
+                src={safeImageUrl(imageSrc)}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="aspect-square w-full bg-white object-cover"
+              />
               <div className="mt-1 truncate text-[10px] text-[#4a4742]">{fileName}</div>
             </button>
           );
@@ -2546,7 +2557,15 @@ function AdminWorksPanel({
                 onClick={() => setSelectedWorkId(work.id)}
                 className="flex min-w-0 flex-1 items-center gap-2 text-left"
               >
-                {work.image ? <img src={safeImageUrl(work.image)} alt="" className="h-8 w-8 object-cover" /> : <div className="h-8 w-8 bg-[#ebe9e4]" />}
+                {work.image ? (
+                  <img
+                    src={safeImageUrl(work.image)}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="h-8 w-8 object-cover"
+                  />
+                ) : <div className="h-8 w-8 bg-[#ebe9e4]" />}
                 <span className="min-w-0 flex-1">
                   <span className="block truncate">{work.title}</span>
                   {work.year ? <span className="mt-0.5 block text-[10px] opacity-60">{work.year}</span> : null}
@@ -2576,7 +2595,13 @@ function AdminWorksPanel({
             <aside className="space-y-3">
               <div className="border border-[#e3e1dc] bg-[#f6f5f2] p-2">
                 {selectedWork.image ? (
-                  <img src={safeImageUrl(selectedWork.image)} alt={selectedWork.alt || selectedWork.title} className="h-auto w-full object-contain" />
+                  <img
+                    src={safeImageUrl(selectedWork.image)}
+                    alt={selectedWork.alt || selectedWork.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-auto w-full object-contain"
+                  />
                 ) : (
                   <div className="flex h-48 items-center justify-center border border-dashed border-[#d8d3ca] text-xs text-[#8a857a]">
                     no image yet
@@ -2648,7 +2673,13 @@ function AdminWorksPanel({
                   <div className="grid grid-cols-2 gap-2">
                     {selectedWork.images.map((image) => (
                       <div key={image.id} className="border border-[#e3e1dc] bg-[#f6f5f2] p-1">
-                        <img src={safeImageUrl(image.src)} alt={image.alt || "version"} className="h-24 w-full object-cover" />
+                        <img
+                          src={safeImageUrl(image.src)}
+                          alt={image.alt || "version"}
+                          loading="lazy"
+                          decoding="async"
+                          className="h-24 w-full object-cover"
+                        />
                         <div className="mt-1 grid grid-cols-2 gap-1">
                           <button
                             type="button"
@@ -2918,7 +2949,13 @@ function AdminArchivePanel({
                 }`}
               >
                 {work.image ? (
-                  <img src={safeImageUrl(work.image)} alt="" className="aspect-square w-full bg-white object-cover" />
+                  <img
+                    src={safeImageUrl(work.image)}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-square w-full bg-white object-cover"
+                  />
                 ) : (
                   <div className="aspect-square w-full bg-[#ebe9e4]" />
                 )}
@@ -2936,7 +2973,13 @@ function AdminArchivePanel({
           <>
             <div className="text-[11px] uppercase tracking-[0.12em] text-[#8a857a]">selected resource</div>
             {selectedWork.image ? (
-              <img src={safeImageUrl(selectedWork.image)} alt="" className="max-h-52 w-full border border-[#e3e1dc] bg-white object-contain" />
+              <img
+                src={safeImageUrl(selectedWork.image)}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="max-h-52 w-full border border-[#e3e1dc] bg-white object-contain"
+              />
             ) : null}
             <div className="border border-[#e3e1dc] bg-[#f6f5f2] p-2 text-xs">
               <div className="text-[11px] uppercase tracking-[0.08em] text-[#8a857a]">resource code</div>
