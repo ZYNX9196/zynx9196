@@ -1709,9 +1709,13 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
   }, [lines]);
 
   return (
-    <main className="min-h-[calc(100svh-105px)] px-3 pb-32 pt-3 sm:min-h-[calc(100vh-73px)] sm:px-4 md:px-6 md:py-6 md:pb-32">
-      <section className="mx-auto grid max-w-5xl gap-3 sm:gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
-        <div className="overflow-hidden border border-[#e3e1dc]/70 bg-[#f5f5f3]/90 shadow-[0_12px_38px_rgba(46,46,43,0.14)] backdrop-blur">
+    <main
+      className="relative min-h-[calc(100svh-105px)] overflow-hidden bg-cover bg-center px-3 pb-32 pt-3 sm:min-h-[calc(100vh-73px)] sm:px-4 md:px-6 md:py-6 md:pb-32"
+      style={{ backgroundImage: "url('/Untitled%20design%20(9).png')" }}
+    >
+      <div className="absolute inset-0 bg-[#f5f5f3]/68 backdrop-blur-[1px]" aria-hidden="true" />
+      <section className="relative mx-auto grid max-w-5xl gap-3 sm:gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
+        <div className="overflow-hidden border border-[#d8d3ca]/80 bg-[#f5f5f3]/88 shadow-[0_12px_38px_rgba(46,46,43,0.18)] backdrop-blur-md">
           <div className="flex items-center justify-between border-b border-[#e3e1dc]/70 bg-[#f5f5f3]/70 px-3 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8a857a] sm:tracking-[0.14em]">
             <span>terminal</span>
             <span>{String(lines.length).padStart(3, "0")}</span>
@@ -1748,7 +1752,7 @@ function Terminal({ lines, input, setInput, onCommand, customCommands = [] }) {
           </label>
         </div>
 
-        <aside className="border border-[#e3e1dc]/70 bg-[#f5f5f3]/90 p-3 text-xs shadow-[0_12px_38px_rgba(46,46,43,0.1)] backdrop-blur sm:p-4">
+        <aside className="border border-[#d8d3ca]/80 bg-[#f5f5f3]/88 p-3 text-xs shadow-[0_12px_38px_rgba(46,46,43,0.14)] backdrop-blur-md sm:p-4">
           <div className="text-[11px] uppercase tracking-[0.12em] text-[#8a857a]">commands</div>
           <div className="mt-3 grid grid-cols-3 gap-2 leading-5 text-[#5a554d] sm:flex sm:overflow-x-auto sm:pb-1 lg:flex-wrap lg:overflow-visible">
             {visibleCommands.map(({ command, label }) => (
