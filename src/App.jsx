@@ -694,16 +694,10 @@ export default function App() {
       lockAdmin();
       response = ["studio locked"];
     } else if (command === "help") {
-      const customCommands = terminalConfig.commands
-        .map((item) => item.trigger.trim())
-        .filter(Boolean)
-        .filter((trigger) => !TERMINAL_COMMANDS.some((item) => item.command === trigger.toLowerCase()));
-
       response = [
         "command index",
         "",
         ...TERMINAL_COMMANDS.map((item) => `${item.command.padEnd(13, " ")} ${item.label}`),
-        ...(customCommands.length ? ["", "custom", ...customCommands.map((trigger) => `${trigger.padEnd(13, " ")} editable response`)] : []),
       ];
     } else if (command === "gallery") {
       setMode("gallery");
